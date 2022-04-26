@@ -78,6 +78,11 @@ public class Boid : MonoBehaviour {
             Vector3 collisionAvoidForce = SteerTowards (collisionAvoidDir) * settings.avoidCollisionWeight;
             acceleration += collisionAvoidForce;
         }
+        if (IsHeadingForThreat())
+        {
+            Vector3 threatAvoidForce = SteerTowards(-velocity) * settings.avoidThreatWeight;
+            acceleration += threatAvoidForce;
+        }
 
         velocity += acceleration * Time.deltaTime;
         float speed = velocity.magnitude;
@@ -98,8 +103,17 @@ public class Boid : MonoBehaviour {
         } else { }
         return false;
     }
-
-    Vector3 ObstacleRays () {
+    bool IsHeadingForThreat()
+    {
+        RaycastHit hit;
+        if (Physics.SphereCast(position, settings.threatBoundsRadius, forward, out hit, settings.threatAvoidDst, settings.threatMask))
+        {
+            return true;
+        }
+        else { }
+        return false;
+    }
+        Vector3 ObstacleRays () {
         Vector3[] rayDirections = BoidHelper.directions;
 
         for (int i = 0; i < rayDirections.Length; i++) {
@@ -112,7 +126,7 @@ public class Boid : MonoBehaviour {
 
         return forward;
     }
-
+   
     Vector3 SteerTowards (Vector3 vector) {
         Vector3 v = vector.normalized * settings.maxSpeed - velocity;
         return Vector3.ClampMagnitude (v, settings.maxSteerForce);

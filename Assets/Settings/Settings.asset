@@ -27,3 +27,9 @@ MonoBehaviour:
   boundsRadius: 0.27
   avoidCollisionWeight: 20
   collisionAvoidDst: 5
+  threatMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  threatBoundsRadius: 0.7
+  avoidThreatWeight: 50
+  threatAvoidDst: 10

@@ -23,4 +23,9 @@ public class BoidSettings : ScriptableObject {
     public float avoidCollisionWeight = 10;
     public float collisionAvoidDst = 5;
 
+    [Header("Threads")]
+    public LayerMask threatMask;
+    public float threatBoundsRadius = 2;
+    public float avoidThreatWeight = 50;
+    public float threatAvoidDst = 10;
 }
