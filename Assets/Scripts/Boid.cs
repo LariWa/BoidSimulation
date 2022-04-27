@@ -29,6 +29,10 @@ public class Boid : MonoBehaviour {
     Transform cachedTransform;
     Transform target;
 
+    //Threat Behaviour
+    bool isThreatNearBy;
+    Vector3 threatDirection;
+
     void Awake () {
         material = transform.GetComponentInChildren<MeshRenderer> ().material;
         cachedTransform = transform;
@@ -78,9 +82,9 @@ public class Boid : MonoBehaviour {
             Vector3 collisionAvoidForce = SteerTowards (collisionAvoidDir) * settings.avoidCollisionWeight;
             acceleration += collisionAvoidForce;
         }
-        if (IsHeadingForThreat())
+        if (isThreatNearBy)
         {
-            Vector3 threatAvoidForce = SteerTowards(-velocity) * settings.avoidThreatWeight;
+            Vector3 threatAvoidForce = SteerTowards(-threatDirection) * settings.avoidThreatWeight;
             acceleration += threatAvoidForce;
         }
 
@@ -132,4 +136,26 @@ public class Boid : MonoBehaviour {
         return Vector3.ClampMagnitude (v, settings.maxSteerForce);
     }
 
+
+
+    //Collision Detection for Threat Behaviour
+    public void OnTriggerEnter(Collider collider)
+    {
+        //if object collided with is a Threat
+        if (isLayerInMask(settings.threatMask, collider.gameObject.layer))
+        {
+            isThreatNearBy = true;
+            threatDirection = collider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
+        }
+    }
+
+    public void OnTriggerExit(Collider collider)
+    {
+        if (isLayerInMask(settings.threatMask, collider.gameObject.layer))
+            isThreatNearBy = false;
+    }
+    public bool isLayerInMask(LayerMask layermask, int layer)
+    {
+        return layermask == (layermask | (1 << layer));
+    }
 }
