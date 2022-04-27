@@ -21,8 +21,9 @@ public class Boid : MonoBehaviour {
     public Vector3 avgAvoidanceHeading;
     [HideInInspector]
     public Vector3 centreOfFlockmates;
-    [HideInInspector]
+    //[HideInInspector]
     public int numPerceivedFlockmates;
+    public float totalFear=0;
     public float fear;
 
     // Cached
@@ -61,7 +62,7 @@ public class Boid : MonoBehaviour {
 
     public void UpdateBoid () {
         Vector3 acceleration = Vector3.zero;
-
+        fear = 0;
         if (target != null) {
             Vector3 offsetToTarget = (target.position - position);
             acceleration = SteerTowards (offsetToTarget) * settings.targetWeight;
@@ -69,6 +70,7 @@ public class Boid : MonoBehaviour {
 
         if (numPerceivedFlockmates != 0) {
             centreOfFlockmates /= numPerceivedFlockmates;
+            totalFear /= numPerceivedFlockmates;
 
             Vector3 offsetToFlockmatesCentre = (centreOfFlockmates - position);
 
@@ -79,6 +81,10 @@ public class Boid : MonoBehaviour {
             acceleration += alignmentForce;
             acceleration += cohesionForce;
             acceleration += seperationForce;
+
+            //fear handling
+            
+
         }
 
         if (IsHeadingForCollision ()) {
@@ -88,12 +94,10 @@ public class Boid : MonoBehaviour {
         }
         if (isThreatNearBy)
         {
-            fear = Mathf.Pow(0.15f,(Vector3.Distance(threatCollider.ClosestPoint(cachedTransform.position) , cachedTransform.position)/ settings.threatDetectionRadius));
-            Debug.Log(fear);
+            fear = Mathf.Clamp( Mathf.Pow(0.15f,(Vector3.Distance(threatCollider.ClosestPoint(cachedTransform.position) , cachedTransform.position)/ settings.threatDetectionRadius)),0,1);
             Vector3 threatDirection = threatCollider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
             Vector3 threatAvoidForce = SteerTowards(-threatDirection) * settings.avoidThreatWeight*fear;
             acceleration += threatAvoidForce;
-
         }
 
         velocity += acceleration * Time.deltaTime;
@@ -110,8 +114,8 @@ public class Boid : MonoBehaviour {
 
     float getCohesionThreatWeight()
     {
-        if (isThreatNearBy) return settings.cohesionThreatWeight;
-        return 0;
+
+        return totalFear * settings.cohesionThreatWeight;
     }
     bool IsHeadingForCollision () {
         RaycastHit hit;

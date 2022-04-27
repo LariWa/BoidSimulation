@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6194ee95dedb4d71a8fe738abba0f47, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  minSpeed: 5
-  maxSpeed: 8
+  minSpeed: 2
+  maxSpeed: 6
   perceptionRadius: 2.5
   avoidanceRadius: 1
   maxSteerForce: 8
@@ -33,3 +33,5 @@ MonoBehaviour:
   threatBoundsRadius: 0.7
   avoidThreatWeight: 50
   threatAvoidDst: 10
+  cohesionThreatWeight: 0.5
+  threatDetectionRadius: 4

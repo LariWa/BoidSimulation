@@ -51,6 +51,8 @@ MonoBehaviour:
   avgAvoidanceHeading: {x: 0, y: 0, z: 0}
   centreOfFlockmates: {x: 0, y: 0, z: 0}
   numPerceivedFlockmates: 0
+  totalFear: 0
+  fear: 0
 --- !u!135 &2546419398229856009
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -62,7 +64,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4154384415608217699
 PrefabInstance:

@@ -27,6 +27,8 @@ public class BoidManager : MonoBehaviour {
             for (int i = 0; i < boids.Length; i++) {
                 boidData[i].position = boids[i].position;
                 boidData[i].direction = boids[i].forward;
+                boidData[i].fear = boids[i].fear;
+
             }
 
             var boidBuffer = new ComputeBuffer (numBoids, BoidData.Size);
@@ -47,7 +49,7 @@ public class BoidManager : MonoBehaviour {
                 boids[i].centreOfFlockmates = boidData[i].flockCentre;
                 boids[i].avgAvoidanceHeading = boidData[i].avoidanceHeading;
                 boids[i].numPerceivedFlockmates = boidData[i].numFlockmates;
-
+                boids[i].totalFear = boidData[i].flockFear;
                 boids[i].UpdateBoid ();
             }
 
@@ -63,10 +65,12 @@ public class BoidManager : MonoBehaviour {
         public Vector3 flockCentre;
         public Vector3 avoidanceHeading;
         public int numFlockmates;
+        public float flockFear;
+        public float fear;
 
         public static int Size {
             get {
-                return sizeof (float) * 3 * 5 + sizeof (int);
+                return sizeof (float) * 3 * 5 + sizeof (int)+2*sizeof(float);
             }
         }
     }
