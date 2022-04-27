@@ -23,6 +23,7 @@ public class Boid : MonoBehaviour {
     public Vector3 centreOfFlockmates;
     [HideInInspector]
     public int numPerceivedFlockmates;
+    public float fear;
 
     // Cached
     Material material;
@@ -31,11 +32,11 @@ public class Boid : MonoBehaviour {
 
     //Threat Behaviour
     bool isThreatNearBy;
-    Vector3 threatDirection;
+    Collider threatCollider;
 
     void Awake () {
         material = transform.GetComponentInChildren<MeshRenderer> ().material;
-        cachedTransform = transform;
+        cachedTransform = transform;       
     }
 
     public void Initialize (BoidSettings settings, Transform target) {
@@ -47,6 +48,9 @@ public class Boid : MonoBehaviour {
 
         float startSpeed = (settings.minSpeed + settings.maxSpeed) / 2;
         velocity = transform.forward * startSpeed;
+
+        GetComponent<SphereCollider>().radius =settings.threatDetectionRadius;
+
     }
 
     public void SetColour (Color col) {
@@ -69,7 +73,7 @@ public class Boid : MonoBehaviour {
             Vector3 offsetToFlockmatesCentre = (centreOfFlockmates - position);
 
             var alignmentForce = SteerTowards (avgFlockHeading) * settings.alignWeight;
-            var cohesionForce = SteerTowards (offsetToFlockmatesCentre) * settings.cohesionWeight;
+            var cohesionForce = SteerTowards (offsetToFlockmatesCentre) * (settings.cohesionWeight + getCohesionThreatWeight());
             var seperationForce = SteerTowards (avgAvoidanceHeading) * settings.seperateWeight;
 
             acceleration += alignmentForce;
@@ -84,8 +88,12 @@ public class Boid : MonoBehaviour {
         }
         if (isThreatNearBy)
         {
-            Vector3 threatAvoidForce = SteerTowards(-threatDirection) * settings.avoidThreatWeight;
+            fear = Mathf.Pow(0.15f,(Vector3.Distance(threatCollider.ClosestPoint(cachedTransform.position) , cachedTransform.position)/ settings.threatDetectionRadius));
+            Debug.Log(fear);
+            Vector3 threatDirection = threatCollider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
+            Vector3 threatAvoidForce = SteerTowards(-threatDirection) * settings.avoidThreatWeight*fear;
             acceleration += threatAvoidForce;
+
         }
 
         velocity += acceleration * Time.deltaTime;
@@ -100,6 +108,11 @@ public class Boid : MonoBehaviour {
         forward = dir;
     }
 
+    float getCohesionThreatWeight()
+    {
+        if (isThreatNearBy) return settings.cohesionThreatWeight;
+        return 0;
+    }
     bool IsHeadingForCollision () {
         RaycastHit hit;
         if (Physics.SphereCast (position, settings.boundsRadius, forward, out hit, settings.collisionAvoidDst, settings.obstacleMask)) {
@@ -107,30 +120,24 @@ public class Boid : MonoBehaviour {
         } else { }
         return false;
     }
-    bool IsHeadingForThreat()
+
+    Vector3 ObstacleRays()
     {
-        RaycastHit hit;
-        if (Physics.SphereCast(position, settings.threatBoundsRadius, forward, out hit, settings.threatAvoidDst, settings.threatMask))
-        {
-            return true;
-        }
-        else { }
-        return false;
-    }
-        Vector3 ObstacleRays () {
         Vector3[] rayDirections = BoidHelper.directions;
 
-        for (int i = 0; i < rayDirections.Length; i++) {
-            Vector3 dir = cachedTransform.TransformDirection (rayDirections[i]);
-            Ray ray = new Ray (position, dir);
-            if (!Physics.SphereCast (ray, settings.boundsRadius, settings.collisionAvoidDst, settings.obstacleMask)) {
+        for (int i = 0; i < rayDirections.Length; i++)
+        {
+            Vector3 dir = cachedTransform.TransformDirection(rayDirections[i]);
+            Ray ray = new Ray(position, dir);
+            if (!Physics.SphereCast(ray, settings.boundsRadius, settings.collisionAvoidDst, settings.obstacleMask))
+            {
                 return dir;
             }
         }
 
         return forward;
     }
-   
+
     Vector3 SteerTowards (Vector3 vector) {
         Vector3 v = vector.normalized * settings.maxSpeed - velocity;
         return Vector3.ClampMagnitude (v, settings.maxSteerForce);
@@ -145,7 +152,8 @@ public class Boid : MonoBehaviour {
         if (isLayerInMask(settings.threatMask, collider.gameObject.layer))
         {
             isThreatNearBy = true;
-            threatDirection = collider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
+            threatCollider = collider;
+            //threatDirection = collider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
         }
     }
 

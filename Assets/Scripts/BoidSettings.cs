@@ -26,6 +26,8 @@ public class BoidSettings : ScriptableObject {
     [Header("Threads")]
     public LayerMask threatMask;
     public float threatBoundsRadius = 2;
-    public float avoidThreatWeight = 50;
+    public float avoidThreatWeight = 15;
     public float threatAvoidDst = 10;
+    public float cohesionThreatWeight = 0.5f;
+    public float threatDetectionRadius = 4f;
 }
