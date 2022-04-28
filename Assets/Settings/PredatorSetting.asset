@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1134c31507a0e5144b59dc6a0088dcc8, type: 3}
   m_Name: PredatorSetting
   m_EditorClassIdentifier: Assembly-CSharp::PredetorSettings
-  minSpeed: 2
-  maxSpeed: 3
+  minSpeed: 5
+  maxSpeed: 7
   maxSteerForce: 8
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 5632
+    m_Bits: 9728
   boundsRadius: 3
-  avoidCollisionWeight: 150
-  collisionAvoidDst: 3
+  avoidCollisionWeight: 30
+  collisionAvoidDst: 2

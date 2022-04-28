@@ -56,6 +56,7 @@ public class PredatorBehaviour : MonoBehaviour
     }
     bool IsHeadingForCollision()
     {
+
         RaycastHit hit;
         if (Physics.SphereCast(position, settings.boundsRadius, forward, out hit, settings.collisionAvoidDst, settings.obstacleMask))
         {
@@ -79,7 +80,7 @@ public class PredatorBehaviour : MonoBehaviour
             }
         }
 
-        return -forward;
+        return forward;
     }
     Vector3 SteerTowards(Vector3 vector)
     {
