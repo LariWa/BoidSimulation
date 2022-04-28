@@ -89,14 +89,14 @@ public class Boid : MonoBehaviour {
             Vector3 collisionAvoidForce = SteerTowards (collisionAvoidDir) * settings.avoidCollisionWeight;
             acceleration += collisionAvoidForce;
         }
-       else if (isThreatNearBy)
+        else if (isThreatNearBy)
         {
             float currentFear = totalFear / 2;
             Vector3 average = Vector3.zero;
             foreach (Collider collider in threatColliders)
             {
                 average += collider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
-                currentFear += Mathf.Clamp(+Vector3.Distance(collider.ClosestPoint(cachedTransform.position), cachedTransform.position) / settings.threatDetectionRadius, 0, 1);
+                currentFear += Mathf.Clamp(1-Vector3.Distance(collider.ClosestPoint(cachedTransform.position), cachedTransform.position) / settings.threatDetectionRadius, 0, 1);
 
             }
             fear = currentFear;
