@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Boid : MonoBehaviour {
 
@@ -33,7 +34,7 @@ public class Boid : MonoBehaviour {
 
     //Threat Behaviour
     bool isThreatNearBy;
-    Collider threatCollider;
+    List<Collider> threatColliders = new List<Collider>();
 
     void Awake () {
         material = transform.GetComponentInChildren<MeshRenderer> ().material;
@@ -81,10 +82,6 @@ public class Boid : MonoBehaviour {
             acceleration += alignmentForce;
             acceleration += cohesionForce;
             acceleration += seperationForce;
-
-            //fear handling
-            
-
         }
 
         if (IsHeadingForCollision ()) {
@@ -92,18 +89,31 @@ public class Boid : MonoBehaviour {
             Vector3 collisionAvoidForce = SteerTowards (collisionAvoidDir) * settings.avoidCollisionWeight;
             acceleration += collisionAvoidForce;
         }
-        if (isThreatNearBy)
+       else if (isThreatNearBy)
         {
-            fear = Mathf.Clamp( Mathf.Pow(0.15f,(Vector3.Distance(threatCollider.ClosestPoint(cachedTransform.position) , cachedTransform.position)/ settings.threatDetectionRadius)),0,1);
-            Vector3 threatDirection = threatCollider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
-            Vector3 threatAvoidForce = SteerTowards(-threatDirection) * settings.avoidThreatWeight*fear;
+            float currentFear = totalFear / 2;
+            Vector3 average = Vector3.zero;
+            foreach (Collider collider in threatColliders)
+            {
+                average += collider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
+                currentFear += Mathf.Clamp(+Vector3.Distance(collider.ClosestPoint(cachedTransform.position), cachedTransform.position) / settings.threatDetectionRadius, 0, 1);
+
+            }
+            fear = currentFear;
+            Vector3 threatDirection = average / threatColliders.Count;
+            Vector3 threatAvoidForce = SteerTowards(-threatDirection) * settings.avoidThreatWeight * (fear);
             acceleration += threatAvoidForce;
         }
 
         velocity += acceleration * Time.deltaTime;
         float speed = velocity.magnitude;
         Vector3 dir = velocity / speed;
-        speed = Mathf.Clamp (speed, settings.minSpeed, settings.maxSpeed);
+        if (isThreatNearBy)
+        {
+            speed = Mathf.Clamp(speed, settings.minSpeed, settings.escapeSpeed);
+        }
+        else
+            speed = Mathf.Clamp(speed, settings.minSpeed, settings.maxSpeed);
         velocity = dir * speed;
 
         cachedTransform.position += velocity * Time.deltaTime;
@@ -111,8 +121,8 @@ public class Boid : MonoBehaviour {
         position = cachedTransform.position;
         forward = dir;
     }
-
-    float getCohesionThreatWeight()
+   
+        float getCohesionThreatWeight()
     {
 
         return totalFear * settings.cohesionThreatWeight;
@@ -138,8 +148,8 @@ public class Boid : MonoBehaviour {
                 return dir;
             }
         }
-
-        return forward;
+        Debug.Log("no way out found");
+        return -forward;
     }
 
     Vector3 SteerTowards (Vector3 vector) {
@@ -156,15 +166,18 @@ public class Boid : MonoBehaviour {
         if (isLayerInMask(settings.threatMask, collider.gameObject.layer))
         {
             isThreatNearBy = true;
-            threatCollider = collider;
-            //threatDirection = collider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
+            if(!threatColliders.Contains(collider))
+            threatColliders.Add(collider);
         }
     }
 
     public void OnTriggerExit(Collider collider)
     {
         if (isLayerInMask(settings.threatMask, collider.gameObject.layer))
-            isThreatNearBy = false;
+        {
+            if (threatColliders.Contains(collider))
+                threatColliders.Remove(collider);
+        }
     }
     public bool isLayerInMask(LayerMask layermask, int layer)
     {

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6194ee95dedb4d71a8fe738abba0f47, type: 3}
-  m_Name: Settings
+  m_Name: BoidSetting
   m_EditorClassIdentifier: 
   minSpeed: 2
   maxSpeed: 6
@@ -24,14 +24,13 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 1536
-  boundsRadius: 0.27
-  avoidCollisionWeight: 20
-  collisionAvoidDst: 5
+  boundsRadius: 0.05
+  avoidCollisionWeight: 30
+  collisionAvoidDst: 7
   threatMask:
     serializedVersion: 2
     m_Bits: 4096
-  threatBoundsRadius: 0.7
-  avoidThreatWeight: 50
-  threatAvoidDst: 10
-  cohesionThreatWeight: 0.5
-  threatDetectionRadius: 4
+  avoidThreatWeight: 20
+  cohesionThreatWeight: 0.2
+  threatDetectionRadius: 3
+  escapeSpeed: 10

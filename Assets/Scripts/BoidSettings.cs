@@ -28,4 +28,5 @@ public class BoidSettings : ScriptableObject {
     public float avoidThreatWeight = 50;
     public float cohesionThreatWeight = 0.5f;
     public float threatDetectionRadius = 4f;
+    public float escapeSpeed = 10f;
 }
