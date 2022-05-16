@@ -13,6 +13,7 @@ public class PredatorBehaviour : MonoBehaviour
     Vector3 velocity;
     Vector3 acceleration;
     Transform cachedTransform;
+    [SerializeField] private Animator animationController;
 
     // Start is called before the first frame update
     void Start()
@@ -51,9 +52,14 @@ public class PredatorBehaviour : MonoBehaviour
     public void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.layer == 8)//Boid
+        {
             Destroy(collider.gameObject);
-                                
+            animationController.SetTrigger("bite");
+
+        }
+
     }
+
     bool IsHeadingForCollision()
     {
 
