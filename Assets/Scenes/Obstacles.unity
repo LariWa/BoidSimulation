@@ -325,6 +325,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Predator (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1569443772176233876, guid: a504a3222d5366541b4cbc65abad16c0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1569443772176233877, guid: a504a3222d5366541b4cbc65abad16c0,
         type: 3}
       propertyPath: m_RootOrder
@@ -2021,6 +2026,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Predator
+      objectReference: {fileID: 0}
+    - target: {fileID: 1569443772176233876, guid: a504a3222d5366541b4cbc65abad16c0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1569443772176233877, guid: a504a3222d5366541b4cbc65abad16c0,
         type: 3}
