@@ -4,6 +4,7 @@ Shader "Custom/NoiseGround"
 	{
 		_Color("Color", Color) = (1,1,1,1)
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
+		_NormalMap("Normal Map",2D) = "bump" {}
 		_Glossiness("Smoothness", Range(0,1)) = 0.5
 		_Metallic("Metallic", Range(0,1)) = 0.0
 		_Tesselation("Tesselation", Range(1,8)) = 4
@@ -29,7 +30,7 @@ Shader "Custom/NoiseGround"
 				float2 texcoord: TEXCOORD0;
 				float4 tangent : TANGENT;
 	};
-			sampler2D _MainTex;
+			sampler2D _MainTex, _NormalMap;
 
 			struct Input
 			{
@@ -72,6 +73,7 @@ Shader "Custom/NoiseGround"
 				// Metallic and smoothness come from slider variables
 				o.Metallic = _Metallic;
 				o.Smoothness = _Glossiness;
+				o.Normal = UnpackNormal(tex2D(_NormalMap, IN.uv_MainTex));
 			}
 			ENDCG
 		}
