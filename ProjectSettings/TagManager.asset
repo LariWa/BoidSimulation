@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Fish1
+  - Fish2
   layers:
   - Default
   - TransparentFX
@@ -19,8 +21,8 @@ TagManager:
   - 
   - Threat
   - ThreatObstacle
-  - 
-  - 
+  - Fish1
+  - Fish2
   - 
   - 
   - 

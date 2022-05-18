@@ -9,9 +9,16 @@ public class BoidManager : MonoBehaviour {
     public BoidSettings settings;
     public ComputeShader compute;
     Boid[] boids;
+    public string boidTag;
 
     void Start () {
-        boids = FindObjectsOfType<Boid> ();
+        var boidsObjects = GameObject.FindGameObjectsWithTag(boidTag);
+        var boidsTemp = new Boid[boidsObjects.Length];
+        for (int i = 0; i < boidsObjects.Length; i++)
+        {
+            boidsTemp[i] = boidsObjects[i].GetComponent<Boid>();
+        }
+        boids = boidsTemp;
         foreach (Boid b in boids) {
             b.Initialize (settings, null);
         }

@@ -22,9 +22,11 @@ public class Boid : MonoBehaviour {
     public Vector3 avgAvoidanceHeading;
     [HideInInspector]
     public Vector3 centreOfFlockmates;
-    //[HideInInspector]
+    [HideInInspector]
     public int numPerceivedFlockmates;
+    [HideInInspector]
     public float totalFear=0;
+    [HideInInspector]
     public float fear;
 
     // Cached
