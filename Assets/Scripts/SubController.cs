@@ -101,7 +101,7 @@ public class SubController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-      if (collision.gameObject.tag == "Boid")
+      if (collision.collider.gameObject.name == "Boid(Clone)")
       {
           Physics.IgnoreCollision(collision.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
       }
