@@ -13,7 +13,7 @@ public class PredatorBehaviour : MonoBehaviour
     Vector3 velocity;
     Vector3 acceleration;
     Transform cachedTransform;
-    [SerializeField] private Animator animationController;
+    //[SerializeField] private Animator animationController;
 
     // Start is called before the first frame update
     void Start()
@@ -38,10 +38,10 @@ public class PredatorBehaviour : MonoBehaviour
         velocity += acceleration * Time.deltaTime;
         float speed = velocity.magnitude;
         Vector3 dir = velocity / speed;
-     
+
             speed = Mathf.Clamp(speed, settings.minSpeed, settings.maxSpeed);
-       
-      
+
+
         velocity = dir * speed;
 
         cachedTransform.position += velocity * Time.deltaTime;
@@ -54,7 +54,7 @@ public class PredatorBehaviour : MonoBehaviour
         if (collider.gameObject.layer == 8)//Boid
         {
             Destroy(collider.gameObject);
-            animationController.SetTrigger("bite");
+            //animationController.SetTrigger("bite");
 
         }
 

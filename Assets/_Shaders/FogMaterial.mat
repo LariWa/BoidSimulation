@@ -31,5 +31,5 @@ Material:
     - _NoiseSpeed: 1
     - _PixelOffset: 0.005
     m_Colors:
-    - _FogColor: {r: 0, g: 0.4245283, b: 0.34063628, a: 0}
+    - _FogColor: {r: 0, g: 0.41960788, b: 0.34117648, a: 0.11372549}
   m_BuildTextureStacks: []
