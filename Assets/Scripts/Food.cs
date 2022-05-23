@@ -6,7 +6,9 @@ public class Food : MonoBehaviour
 {
   public void OnTriggerEnter(Collider col)
   {
-      if (col.GetComponent<Collider>().gameObject.name == "Boid(Clone)") // Boid
-        Destroy(gameObject);
+        if (col.gameObject.layer==8) // Boid
+        {
+            Destroy(gameObject);
+        }
   }
 }
