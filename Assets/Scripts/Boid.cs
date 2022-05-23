@@ -38,7 +38,7 @@ public class Boid : MonoBehaviour {
 
     void Awake () {
         material = transform.GetComponentInChildren<MeshRenderer> ().material;
-        cachedTransform = transform;       
+        cachedTransform = transform;
     }
 
     public void Initialize (BoidSettings settings, Transform target) {
@@ -62,6 +62,10 @@ public class Boid : MonoBehaviour {
     }
 
     public void UpdateBoid () {
+        if (GameObject.Find("Food(Clone)") != null) {
+            target = GameObject.Find("Food(Clone)").transform;
+        }
+
         Vector3 acceleration = Vector3.zero;
         fear = 0;
         if (target != null) {
@@ -121,7 +125,7 @@ public class Boid : MonoBehaviour {
         position = cachedTransform.position;
         forward = dir;
     }
-   
+
         float getCohesionThreatWeight()
     {
 
