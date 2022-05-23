@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
+    public LayerMask eaters;
+    public int eatThreashold =10;
+    int eatNumber=0;
   public void OnTriggerEnter(Collider col)
   {
-        if (col.gameObject.layer==8) // Boid
+        if (eaters == (eaters | (1 << col.gameObject.layer)))// Boid
         {
-            Destroy(gameObject);
+            eatNumber++;
+            if (eatNumber > eatThreashold)
+            {
+                eatThreashold = 0;
+                Destroy(gameObject);
+            }
         }
   }
 }

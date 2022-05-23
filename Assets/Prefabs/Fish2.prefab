@@ -62,7 +62,7 @@ SphereCollider:
   m_GameObject: {fileID: 4115476135907606149}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -147,6 +147,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: YellowFish
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6607aa609b9c74749b97e4c3013e4813,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8560935767336736272, guid: 6607aa609b9c74749b97e4c3013e4813,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6607aa609b9c74749b97e4c3013e4813, type: 3}
