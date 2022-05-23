@@ -7,7 +7,13 @@ public class Food : MonoBehaviour
     public LayerMask eaters;
     public int eatThreashold =10;
     int eatNumber=0;
-  public void OnTriggerEnter(Collider col)
+    private void Update()
+    {
+        if (transform.position.y < 0)
+            Destroy(gameObject);
+
+    }
+    public void OnTriggerEnter(Collider col)
   {
         if (eaters == (eaters | (1 << col.gameObject.layer)))// Boid
         {

@@ -64,9 +64,10 @@ public class Boid : MonoBehaviour {
     }
 
     public void UpdateBoid () {
-        if (GameObject.FindGameObjectsWithTag("Goal") != null)
+        var goals = GameObject.FindGameObjectsWithTag("Goal");
+        if (goals.Length>0)
         {
-            target = GameObject.FindGameObjectWithTag("Goal").transform;
+            target = goals[0].transform;
         }
 
 

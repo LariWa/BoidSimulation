@@ -51,10 +51,10 @@ public class PredatorBehaviour : MonoBehaviour
     }
     public void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.layer == 8)//Boid
+        if (settings.fishes == (settings.fishes | (1 << collider.gameObject.layer)))// Boid
         {
+            Debug.Log("bite");
             Destroy(collider.gameObject);
-            //animationController.SetTrigger("bite");
 
         }
 

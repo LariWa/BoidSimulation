@@ -13,6 +13,8 @@ public class PredatorSettings : ScriptableObject {
 
     [Header ("Collisions")]
     public LayerMask obstacleMask;
+    public LayerMask fishes;
+
     public float boundsRadius = .27f;
     public float avoidCollisionWeight = 20;
     public float collisionAvoidDst = 3;

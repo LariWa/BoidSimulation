@@ -15,26 +15,22 @@ public class FoodGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      generateFood();
+        generateFood();
     }
 
     void Update()
     {
-      count = GameObject.FindGameObjectsWithTag("Goal").Length;
-      if (count == 0)
-        generateFood();
+        count = GameObject.FindGameObjectsWithTag("Goal").Length;
+        if (count == 0)
+            generateFood();
     }
 
     public void generateFood()
     {
-      Vector3 pos = new Vector3(Random.Range(-length/2, length/2), Random.Range(0, height), Random.Range(-width/2, width/2));
-      GameObject food = Instantiate (foodPrefab);
+        Vector3 pos = new Vector3(Random.Range(-length / 2, length / 2), transform.position.y, Random.Range(-width / 2, width / 2));
+        GameObject food = Instantiate(foodPrefab);
         GameObject model = Instantiate(foodModelPrefabs[0]);
-
         model.transform.SetParent(food.GetComponent<Transform>(), false);
-        //food.tag = "Goal";
-        //Rigidbody gameObjectsRigidBody= food.AddComponent<Rigidbody>();
-        //gameObjectsRigidBody.useGravity = false;
         food.transform.position = pos;
         food.transform.rotation = Random.rotation;
     }
