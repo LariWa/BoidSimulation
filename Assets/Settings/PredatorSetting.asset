@@ -18,6 +18,9 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 9728
+  fishes:
+    serializedVersion: 2
+    m_Bits: 49408
   boundsRadius: 3
   avoidCollisionWeight: 30
   collisionAvoidDst: 2
