@@ -64,6 +64,12 @@ public class Boid : MonoBehaviour {
     }
 
     public void UpdateBoid () {
+        if (GameObject.FindGameObjectsWithTag("Goal") != null)
+        {
+            target = GameObject.FindGameObjectWithTag("Goal").transform;
+        }
+
+
         Vector3 acceleration = Vector3.zero;
         fear = 0;
         if (target != null) {
