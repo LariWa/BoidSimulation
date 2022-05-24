@@ -1,6 +1,6 @@
 # Implementation of a realistic underwater environment using Reynolds Flocking Algorithm
 
-As part of the course DH2121 Computer Graphics and Interaction we worked on a project which focuses on the adaptation of Reynolds Flocking Algorithm and the setup of a suitable environment. Predators, randomly appearing food sources and behaviours such as escaping have been introduced. An underwater world environment has been created in which all the newly introduced adaptations were combined. 
+As part of the course DH2323 Computer Graphics and Interaction we worked on a project which focuses on the adaptation of Reynolds Flocking Algorithm and the setup of a suitable environment. Predators, randomly appearing food sources and behaviours such as escaping have been introduced. An underwater world environment has been created in which all the newly introduced adaptations were combined. 
 
 <p align="center">Try it out here: <a target="_blank" href="https://lariwa.github.io/BoidSimulation/">Boid Simulation</a></p>
 <p align="center">
