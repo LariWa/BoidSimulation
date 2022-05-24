@@ -53,7 +53,6 @@ public class PredatorBehaviour : MonoBehaviour
     {
         if (settings.fishes == (settings.fishes | (1 << collider.gameObject.layer)))// Boid
         {
-            Debug.Log("bite");
             Destroy(collider.gameObject);
             animationController.SetTrigger("bite");
         }
