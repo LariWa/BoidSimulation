@@ -63,72 +63,79 @@ public class Boid : MonoBehaviour {
         }
     }
 
-    public void UpdateBoid () {
-        var goals = GameObject.FindGameObjectsWithTag("Goal");
-        if (goals.Length>0)
+    public void UpdateBoid()
+    {
+        if (cachedTransform)
         {
-            target = goals[0].transform;
-        }
-
-
-        Vector3 acceleration = Vector3.zero;
-        fear = 0;
-        if (target != null) {
-            Vector3 offsetToTarget = (target.position - position);
-            acceleration = SteerTowards (offsetToTarget) * settings.targetWeight;
-        }
-
-        if (numPerceivedFlockmates != 0) {
-            centreOfFlockmates /= numPerceivedFlockmates;
-            totalFear /= numPerceivedFlockmates;
-
-            Vector3 offsetToFlockmatesCentre = (centreOfFlockmates - position);
-
-            var alignmentForce = SteerTowards (avgFlockHeading) * settings.alignWeight;
-            var cohesionForce = SteerTowards (offsetToFlockmatesCentre) * (settings.cohesionWeight + getCohesionThreatWeight());
-            var seperationForce = SteerTowards (avgAvoidanceHeading) * settings.seperateWeight;
-
-            acceleration += alignmentForce;
-            acceleration += cohesionForce;
-            acceleration += seperationForce;
-        }
-
-        if (IsHeadingForCollision ()) {
-            Vector3 collisionAvoidDir = ObstacleRays ();
-            Vector3 collisionAvoidForce = SteerTowards (collisionAvoidDir) * settings.avoidCollisionWeight;
-            acceleration += collisionAvoidForce;
-        }
-        else if (isThreatNearBy)
-        {
-            float currentFear = totalFear / 2;
-            Vector3 average = Vector3.zero;
-            foreach (Collider collider in threatColliders)
+            var goals = GameObject.FindGameObjectsWithTag("Goal");
+            if (goals.Length > 0)
             {
-                average += collider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
-                currentFear += Mathf.Clamp(1-Vector3.Distance(collider.ClosestPoint(cachedTransform.position), cachedTransform.position) / settings.threatDetectionRadius, 0, 1);
-
+                target = goals[0].transform;
             }
-            fear = currentFear;
-            Vector3 threatDirection = average / threatColliders.Count;
-            Vector3 threatAvoidForce = SteerTowards(-threatDirection) * settings.avoidThreatWeight * (fear);
-            acceleration += threatAvoidForce;
-        }
 
-        velocity += acceleration * Time.deltaTime;
-        float speed = velocity.magnitude;
-        Vector3 dir = velocity / speed;
-        if (isThreatNearBy)
-        {
-            speed = Mathf.Clamp(speed, settings.minSpeed, settings.escapeSpeed);
-        }
-        else
-            speed = Mathf.Clamp(speed, settings.minSpeed, settings.maxSpeed);
-        velocity = dir * speed;
 
-        cachedTransform.position += velocity * Time.deltaTime;
-        cachedTransform.forward = dir;
-        position = cachedTransform.position;
-        forward = dir;
+            Vector3 acceleration = Vector3.zero;
+            fear = 0;
+            if (target != null)
+            {
+                Vector3 offsetToTarget = (target.position - position);
+                acceleration = SteerTowards(offsetToTarget) * settings.targetWeight;
+            }
+
+            if (numPerceivedFlockmates != 0)
+            {
+                centreOfFlockmates /= numPerceivedFlockmates;
+                totalFear /= numPerceivedFlockmates;
+
+                Vector3 offsetToFlockmatesCentre = (centreOfFlockmates - position);
+
+                var alignmentForce = SteerTowards(avgFlockHeading) * settings.alignWeight;
+                var cohesionForce = SteerTowards(offsetToFlockmatesCentre) * (settings.cohesionWeight + getCohesionThreatWeight());
+                var seperationForce = SteerTowards(avgAvoidanceHeading) * settings.seperateWeight;
+
+                acceleration += alignmentForce;
+                acceleration += cohesionForce;
+                acceleration += seperationForce;
+            }
+
+            if (IsHeadingForCollision())
+            {
+                Vector3 collisionAvoidDir = ObstacleRays();
+                Vector3 collisionAvoidForce = SteerTowards(collisionAvoidDir) * settings.avoidCollisionWeight;
+                acceleration += collisionAvoidForce;
+            }
+            else if (isThreatNearBy)
+            {
+                float currentFear = totalFear / 2;
+                Vector3 average = Vector3.zero;
+                foreach (Collider collider in threatColliders)
+                {
+                    average += collider.ClosestPoint(cachedTransform.position) - cachedTransform.position;
+                    currentFear += Mathf.Clamp(1 - Vector3.Distance(collider.ClosestPoint(cachedTransform.position), cachedTransform.position) / settings.threatDetectionRadius, 0, 1);
+
+                }
+                fear = currentFear;
+                Vector3 threatDirection = average / threatColliders.Count;
+                Vector3 threatAvoidForce = SteerTowards(-threatDirection) * settings.avoidThreatWeight * (fear);
+                acceleration += threatAvoidForce;
+            }
+
+            velocity += acceleration * Time.deltaTime;
+            float speed = velocity.magnitude;
+            Vector3 dir = velocity / speed;
+            if (isThreatNearBy)
+            {
+                speed = Mathf.Clamp(speed, settings.minSpeed, settings.escapeSpeed);
+            }
+            else
+                speed = Mathf.Clamp(speed, settings.minSpeed, settings.maxSpeed);
+            velocity = dir * speed;
+
+            cachedTransform.position += velocity * Time.deltaTime;
+            cachedTransform.forward = dir;
+            position = cachedTransform.position;
+            forward = dir;
+        }
     }
    
         float getCohesionThreatWeight()
@@ -157,7 +164,6 @@ public class Boid : MonoBehaviour {
                 return dir;
             }
         }
-        Debug.Log("no way out found");
         return -forward;
     }
 
