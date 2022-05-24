@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: PredatorSetting
   m_EditorClassIdentifier: Assembly-CSharp::PredetorSettings
   minSpeed: 5
-  maxSpeed: 7
+  maxSpeed: 10
   maxSteerForce: 8
   obstacleMask:
     serializedVersion: 2
     m_Bits: 9728
   fishes:
     serializedVersion: 2
-    m_Bits: 49408
+    m_Bits: 49152
   boundsRadius: 3
   avoidCollisionWeight: 30
   collisionAvoidDst: 2

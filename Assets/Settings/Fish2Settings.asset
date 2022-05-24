@@ -32,5 +32,5 @@ MonoBehaviour:
     m_Bits: 4096
   avoidThreatWeight: 15
   cohesionThreatWeight: 0.05
-  threatDetectionRadius: 1
+  threatDetectionRadius: 5
   escapeSpeed: 8
