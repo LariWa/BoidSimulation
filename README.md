@@ -7,6 +7,14 @@ As part of the course DH2121 Computer Graphics and Interaction we worked on a pr
 <img height="300" alt="Screenshot 2022-05-23 at 7 20 07 PM" src="https://user-images.githubusercontent.com/95613373/169874012-93e57c0b-6612-4dc6-ae3a-4abbacc4416a.png">
 </p>
 
+https://user-images.githubusercontent.com/40071882/170009027-ca22e4aa-f161-445a-86a1-b7e993015f30.mp4
+
+
+https://user-images.githubusercontent.com/40071882/170009043-3ec7c274-ef7e-4ae0-8029-96e670916663.mp4
+
+
+
+
 ## Instructions
 W- forward, S - backwards, A - turning left, D - turning right, Shift left - rising, Control left - submerge
 
